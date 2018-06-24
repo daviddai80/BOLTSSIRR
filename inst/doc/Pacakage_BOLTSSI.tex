@@ -1,0 +1,541 @@
+\documentclass[]{article}
+\usepackage{lmodern}
+\usepackage{amssymb,amsmath}
+\usepackage{ifxetex,ifluatex}
+\usepackage{fixltx2e} % provides \textsubscript
+\ifnum 0\ifxetex 1\fi\ifluatex 1\fi=0 % if pdftex
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+\else % if luatex or xelatex
+  \ifxetex
+    \usepackage{mathspec}
+  \else
+    \usepackage{fontspec}
+  \fi
+  \defaultfontfeatures{Ligatures=TeX,Scale=MatchLowercase}
+\fi
+% use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+% use microtype if available
+\IfFileExists{microtype.sty}{%
+\usepackage{microtype}
+\UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\usepackage[margin=1in]{geometry}
+\usepackage{hyperref}
+\hypersetup{unicode=true,
+            pdftitle={BOLTSSIRR Package for BOLT-SSI: Fully Screening Interaction Effects for Ultra-High Dimensional Data},
+            pdfborder={0 0 0},
+            breaklinks=true}
+\urlstyle{same}  % don't use monospace font for urls
+\usepackage{color}
+\usepackage{fancyvrb}
+\newcommand{\VerbBar}{|}
+\newcommand{\VERB}{\Verb[commandchars=\\\{\}]}
+\DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
+% Add ',fontsize=\small' for more characters per line
+\usepackage{framed}
+\definecolor{shadecolor}{RGB}{248,248,248}
+\newenvironment{Shaded}{\begin{snugshade}}{\end{snugshade}}
+\newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{#1}}
+\newcommand{\DecValTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\FloatTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\CharTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\StringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\ImportTok}[1]{#1}
+\newcommand{\CommentTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\OtherTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{#1}}
+\newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\VariableTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.81,0.36,0.00}{\textbf{#1}}}
+\newcommand{\BuiltInTok}[1]{#1}
+\newcommand{\ExtensionTok}[1]{#1}
+\newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.77,0.63,0.00}{#1}}
+\newcommand{\RegionMarkerTok}[1]{#1}
+\newcommand{\InformationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\WarningTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\AlertTok}[1]{\textcolor[rgb]{0.94,0.16,0.16}{#1}}
+\newcommand{\ErrorTok}[1]{\textcolor[rgb]{0.64,0.00,0.00}{\textbf{#1}}}
+\newcommand{\NormalTok}[1]{#1}
+\usepackage{longtable,booktabs}
+\usepackage{graphicx,grffile}
+\makeatletter
+\def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth\else\Gin@nat@width\fi}
+\def\maxheight{\ifdim\Gin@nat@height>\textheight\textheight\else\Gin@nat@height\fi}
+\makeatother
+% Scale images if necessary, so that they will not overflow the page
+% margins by default, and it is still possible to overwrite the defaults
+% using explicit options in \includegraphics[width, height, ...]{}
+\setkeys{Gin}{width=\maxwidth,height=\maxheight,keepaspectratio}
+\IfFileExists{parskip.sty}{%
+\usepackage{parskip}
+}{% else
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{6pt plus 2pt minus 1pt}
+}
+\setlength{\emergencystretch}{3em}  % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\setcounter{secnumdepth}{0}
+% Redefines (sub)paragraphs to behave more like sections
+\ifx\paragraph\undefined\else
+\let\oldparagraph\paragraph
+\renewcommand{\paragraph}[1]{\oldparagraph{#1}\mbox{}}
+\fi
+\ifx\subparagraph\undefined\else
+\let\oldsubparagraph\subparagraph
+\renewcommand{\subparagraph}[1]{\oldsubparagraph{#1}\mbox{}}
+\fi
+
+%%% Use protect on footnotes to avoid problems with footnotes in titles
+\let\rmarkdownfootnote\footnote%
+\def\footnote{\protect\rmarkdownfootnote}
+
+%%% Change title format to be more compact
+\usepackage{titling}
+
+% Create subtitle command for use in maketitle
+\newcommand{\subtitle}[1]{
+  \posttitle{
+    \begin{center}\large#1\end{center}
+    }
+}
+
+\setlength{\droptitle}{-2em}
+
+  \title{`BOLTSSIRR' Package for BOLT-SSI: Fully Screening Interaction Effects
+for Ultra-High Dimensional Data}
+    \pretitle{\vspace{\droptitle}\centering\huge}
+  \posttitle{\par}
+    \author{}
+    \preauthor{}\postauthor{}
+    \date{}
+    \predate{}\postdate{}
+  
+
+\begin{document}
+\maketitle
+
+\section{1 Overview}\label{overview}
+
+This vignette provides an introduction to the `BOLTSSIRR' package.
+BOLTSSI is a statistical approach for detecting interaction effects
+among predict variables to response variables, which is often an crucial
+step in regression modeling of real data for various applications.
+Through this publicly available package, we provide a unified
+environment to carry out interaction pursuit using a simple sure
+screening procedure (SSI) to fully detect significant pure interactions
+between predict variables and the response variable in the high or
+ultra-high dimensional generalized linear regression models.
+Furthermore, we suggest to discretize continuous predict variables, and
+utilize the Boolean operation for the marginal likelihood estimates. The
+so-called `BOLTSSI' procedure is proposed to accelerate the sure
+screening speed of the procedure.
+
+After screening the interaction effects, we just use penalzied
+likelihood function with LASSO penalty to further select the variables
+including the interaction terms. The objective function is
+\[-loglik/nobs+\lambda*penalty.\]
+
+This vignette is organized as follows. Section 2 introduces the basic
+principle of our methods. Section 3 illustrates how to screen the
+inteaction effecs and choose the variables by using this package.
+
+\section{2 Introduction}\label{introduction}
+
+\subsection{2.1 SSI}\label{ssi}
+
+Assume that given the predictor vector \(x\), the conditional
+distribution of the random variable \(Y\) belongs to an exponential
+family, whose probability density function has the canonical form
+\[f_{Y|x}(y|x)=\exp\{y\theta(x)-b(\theta(x))+c(y)\}\] where \(b(\cdot)\)
+and \(c(\cdot)\) are some known functions and \(\theta(x)\) is a
+canonical natural parameter. Here we ignore the dispersion parameter
+\(\phi\) in the above density function, since we only concentrate on the
+estimation of mean regression function. It is well known that the
+distributions in the exponential family include the Binomial, Gaussian,
+Gamma, Inverse-Gaussian and Poisson distributions.
+
+We consider the following generalized linear model with two-way
+interaction:
+\[E(Y|X=x)=b'(\theta(x))=g^{-1}\left(\beta_0+\sum_{i=1}^p\beta_iX_i+\sum_{i<j}\beta_{ij}X_iX_j\right)
+\] for some link function \(g(\cdot)\). And we focus on the canonical
+link function, hence \(g^{-1}(\cdot)=b'\) and
+\[\theta(x)=\beta_0+\sum_{i=1}^p\beta_iX_i+\sum_{i<j}\beta_{ij}X_iX_j\triangleq\beta_0+\sum_{i=1}^p\beta_iX_i+\sum_{i<j}\beta_{ij}X_{ij}.\]
+
+Our method is based on the marginal likelihood ratio screening, which
+builds on the difference between two marginal negative log-likelihood
+functions in the following two models:
+\[E(Y|X_i,X_j)=\beta_{i,j0}+\beta_{i,}X_i+\beta_{j,}X_j\] and
+\[E(Y|X_i,X_j)=\beta_{i,j0}+\beta_{i,}X_i+\beta_{j,}X_j+\beta_{ij}X_{ij}.\]
+To ease the presentation, through this vignette, \(X_{ij}\) is referred
+to as an important interaction if its regression coefficient
+\(\beta_{ij}\) is nonzero. \(X_i\) is called an active interaction
+variable if there exists some \(1 \leq i\neq j \leq p\) such that
+\(X_{ij}\) is an important interaction. Our method ``SSI'' is based on
+the above difference and to implemnet the screening procedure for
+interaction terms.
+
+\subsection{2.2 BOLTSSI}\label{boltssi}
+
+Furthermore, the ``BOLTSSI'' procedure is proposed to accelerate the
+sure screening speed of the procedure. The first step of BOLT-SSI is to
+discretize one continuous attribute by creating one categorical variabe
+wtih a specified number of levels. After discretization, the Boolean
+operation can be used to speedup SSI procedure, especially the algorithm
+to calculate the difference in the above section 2.1. All details can be
+seen in the paper ( et al. {[}2018{]}).
+
+\section{3 Screening and Prediction}\label{screening-and-prediction}
+
+The package can be loaded with the command:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{library}\NormalTok{(BOLTSSIRR)}
+\end{Highlighting}
+\end{Shaded}
+
+\subsection{\texorpdfstring{3.1 The function
+`BOLT\_SSI'}{3.1 The function BOLT\_SSI}}\label{the-function-bolt_ssi}
+
+\subsubsection{Description}\label{description}
+
+This function implements the Sure Independence Screening SSI and BOLTSSI
+for interaction screening.
+
+\subsubsection{Usage}\label{usage}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{BOLT_SSI}\NormalTok{(X,y,extra_pairs,code_num,thread_num)}
+\end{Highlighting}
+\end{Shaded}
+
+\subsubsection{Arguments}\label{arguments}
+
+\begin{longtable}[]{@{}ll@{}}
+\toprule
+\begin{minipage}[b]{0.12\columnwidth}\raggedright\strut
+Arguments\strut
+\end{minipage} & \begin{minipage}[b]{0.82\columnwidth}\raggedright\strut
+\strut
+\end{minipage}\tabularnewline
+\midrule
+\endhead
+\begin{minipage}[t]{0.12\columnwidth}\raggedright\strut
+X\strut
+\end{minipage} & \begin{minipage}[t]{0.82\columnwidth}\raggedright\strut
+The design matrix, of dimensions \(n*p\), without an intercept. Each row
+is an observation vector.\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.12\columnwidth}\raggedright\strut
+y\strut
+\end{minipage} & \begin{minipage}[t]{0.82\columnwidth}\raggedright\strut
+The response vector of dimension \(n*1\).\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.12\columnwidth}\raggedright\strut
+extra\_pairs\strut
+\end{minipage} & \begin{minipage}[t]{0.82\columnwidth}\raggedright\strut
+The number of remaining interaction effects by using SSI or
+BOLTSSI,default is \(n\).\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.12\columnwidth}\raggedright\strut
+code\_num\strut
+\end{minipage} & \begin{minipage}[t]{0.82\columnwidth}\raggedright\strut
+The level of preditor varibales after discretization, default is
+3.\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.12\columnwidth}\raggedright\strut
+thread\_num\strut
+\end{minipage} & \begin{minipage}[t]{0.82\columnwidth}\raggedright\strut
+The number of thread\_num, default is 4.\strut
+\end{minipage}\tabularnewline
+\bottomrule
+\end{longtable}
+
+\subsubsection{Value}\label{value}
+
+Returns a matrix with three columns.
+
+\begin{longtable}[]{@{}ll@{}}
+\toprule
+\begin{minipage}[b]{0.19\columnwidth}\raggedright\strut
+Values\strut
+\end{minipage} & \begin{minipage}[b]{0.75\columnwidth}\raggedright\strut
+\strut
+\end{minipage}\tabularnewline
+\midrule
+\endhead
+\begin{minipage}[t]{0.19\columnwidth}\raggedright\strut
+Th frist column\strut
+\end{minipage} & \begin{minipage}[t]{0.75\columnwidth}\raggedright\strut
+The value \(i\), where \(i\) is the index of the avtive interaction
+variable \(X_i\).\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.19\columnwidth}\raggedright\strut
+The second column\strut
+\end{minipage} & \begin{minipage}[t]{0.75\columnwidth}\raggedright\strut
+The value \(j\), where \(j\) is the index of the avtive interaction
+variable \(X_j\).\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.19\columnwidth}\raggedright\strut
+The third column\strut
+\end{minipage} & \begin{minipage}[t]{0.75\columnwidth}\raggedright\strut
+The difference between two marginal negative log-likelihood
+functions.\strut
+\end{minipage}\tabularnewline
+\bottomrule
+\end{longtable}
+
+\subsubsection{Examples}\label{examples}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{library}\NormalTok{(BOLTSSIRR)}
+\KeywordTok{set.seed}\NormalTok{(}\DecValTok{0}\NormalTok{)}
+\NormalTok{p=}\DecValTok{300}\NormalTok{;n=}\DecValTok{100}\NormalTok{;rho=}\FloatTok{0.5}
+\NormalTok{H<-}\KeywordTok{abs}\NormalTok{(}\KeywordTok{outer}\NormalTok{(}\DecValTok{1}\OperatorTok{:}\NormalTok{p,}\DecValTok{1}\OperatorTok{:}\NormalTok{p,}\StringTok{"-"}\NormalTok{))}
+\NormalTok{covxx=rho}\OperatorTok{^}\NormalTok{H}
+\NormalTok{cholcov =}\StringTok{ }\KeywordTok{chol}\NormalTok{(covxx)}
+\NormalTok{x0 =}\StringTok{ }\KeywordTok{matrix}\NormalTok{(}\KeywordTok{rnorm}\NormalTok{(n}\OperatorTok{*}\NormalTok{p), n, p)}
+\NormalTok{x =}\StringTok{ }\NormalTok{x0}\OperatorTok{%*%}\NormalTok{cholcov}
+
+\CommentTok{#gaussian response}
+\KeywordTok{set.seed}\NormalTok{(}\DecValTok{0}\NormalTok{)}
+\NormalTok{y=}\DecValTok{2}\OperatorTok{*}\NormalTok{x[,}\DecValTok{1}\NormalTok{]}\OperatorTok{+}\DecValTok{2}\OperatorTok{*}\NormalTok{x[,}\DecValTok{8}\NormalTok{]}\OperatorTok{+}\DecValTok{3}\OperatorTok{*}\NormalTok{x[,}\DecValTok{1}\NormalTok{]}\OperatorTok{*}\NormalTok{x[,}\DecValTok{8}\NormalTok{]}\OperatorTok{+}\KeywordTok{rnorm}\NormalTok{(n)}
+\NormalTok{model1=}\KeywordTok{BOLT_SSI}\NormalTok{(x,y)}
+\KeywordTok{head}\NormalTok{(model1)}
+
+\CommentTok{#binary response}
+\KeywordTok{set.seed}\NormalTok{(}\DecValTok{40}\NormalTok{)}
+\NormalTok{feta =}\StringTok{ }\DecValTok{2}\OperatorTok{*}\NormalTok{x[,}\DecValTok{1}\NormalTok{]}\OperatorTok{+}\DecValTok{2}\OperatorTok{*}\NormalTok{x[,}\DecValTok{8}\NormalTok{]}\OperatorTok{+}\DecValTok{3}\OperatorTok{*}\NormalTok{x[,}\DecValTok{1}\NormalTok{]}\OperatorTok{*}\NormalTok{x[,}\DecValTok{8}\NormalTok{]; }
+\NormalTok{fprob =}\StringTok{ }\KeywordTok{exp}\NormalTok{(feta)}\OperatorTok{/}\NormalTok{(}\DecValTok{1}\OperatorTok{+}\KeywordTok{exp}\NormalTok{(feta))}
+\NormalTok{y =}\StringTok{ }\KeywordTok{rbinom}\NormalTok{(n, }\DecValTok{1}\NormalTok{, fprob)}
+\NormalTok{model2=}\KeywordTok{BOLT_SSI}\NormalTok{(x,y)}
+\KeywordTok{head}\NormalTok{(model2)}
+\end{Highlighting}
+\end{Shaded}
+
+\subsection{\texorpdfstring{3.2 The function
+`CV\_BOLT\_SSI\_RR'}{3.2 The function CV\_BOLT\_SSI\_RR}}\label{the-function-cv_bolt_ssi_rr}
+
+\subsubsection{Description}\label{description-1}
+
+This function fits a generalized linear model via penalized maximum
+likelihood. The regularization path is computed for the lasso penalty at
+a grid of values for the regularization parameter lambda. And it
+implements Cross-Validation for BOLTSSI. It can deal with all shapes of
+data, including very large sparse data matrices.
+
+\subsubsection{Usage}\label{usage-1}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{CV_BOLT_SSI_RR}\NormalTok{(X,y,extra_pairs,cod_num,nfold,nLambda,thread_num)}
+\end{Highlighting}
+\end{Shaded}
+
+\subsubsection{Arguments}\label{arguments-1}
+
+\begin{longtable}[]{@{}ll@{}}
+\toprule
+\begin{minipage}[b]{0.12\columnwidth}\raggedright\strut
+Arguments\strut
+\end{minipage} & \begin{minipage}[b]{0.82\columnwidth}\raggedright\strut
+\strut
+\end{minipage}\tabularnewline
+\midrule
+\endhead
+\begin{minipage}[t]{0.12\columnwidth}\raggedright\strut
+X\strut
+\end{minipage} & \begin{minipage}[t]{0.82\columnwidth}\raggedright\strut
+The design matrix, of dimensions \(n*p\), without an intercept. Each row
+is an observation vector.\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.12\columnwidth}\raggedright\strut
+y\strut
+\end{minipage} & \begin{minipage}[t]{0.82\columnwidth}\raggedright\strut
+The response vector of dimension \(n*1\).\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.12\columnwidth}\raggedright\strut
+extra\_pairs\strut
+\end{minipage} & \begin{minipage}[t]{0.82\columnwidth}\raggedright\strut
+The number of remaining interaction effects by using SSI or
+BOLTSSI,default is \(n\).\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.12\columnwidth}\raggedright\strut
+code\_num\strut
+\end{minipage} & \begin{minipage}[t]{0.82\columnwidth}\raggedright\strut
+The level of preditor varibales after discretization, default is
+3.\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.12\columnwidth}\raggedright\strut
+nfold\strut
+\end{minipage} & \begin{minipage}[t]{0.82\columnwidth}\raggedright\strut
+The number of folds, default is 10.\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.12\columnwidth}\raggedright\strut
+nLambda\strut
+\end{minipage} & \begin{minipage}[t]{0.82\columnwidth}\raggedright\strut
+The number of lambda, default is 100.\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.12\columnwidth}\raggedright\strut
+thread\_num\strut
+\end{minipage} & \begin{minipage}[t]{0.82\columnwidth}\raggedright\strut
+The number of thread\_num, default is 4.\strut
+\end{minipage}\tabularnewline
+\bottomrule
+\end{longtable}
+
+\subsubsection{Value}\label{value-1}
+
+An object of class ``CV\_BOLTSSI\_RR'' is returned, which is a list with
+the ingredients of the crossvalidation fit.
+
+\begin{longtable}[]{@{}ll@{}}
+\toprule
+\begin{minipage}[b]{0.19\columnwidth}\raggedright\strut
+Values\strut
+\end{minipage} & \begin{minipage}[b]{0.75\columnwidth}\raggedright\strut
+\strut
+\end{minipage}\tabularnewline
+\midrule
+\endhead
+\begin{minipage}[t]{0.19\columnwidth}\raggedright\strut
+lambdas\strut
+\end{minipage} & \begin{minipage}[t]{0.75\columnwidth}\raggedright\strut
+The values of lambda used in the fits.\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.19\columnwidth}\raggedright\strut
+beta\strut
+\end{minipage} & \begin{minipage}[t]{0.75\columnwidth}\raggedright\strut
+A nvars x length(lambda) matrix of coefficients, stored in sparse column
+format (``CsparseMatrix'').\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.19\columnwidth}\raggedright\strut
+lambda\_min\strut
+\end{minipage} & \begin{minipage}[t]{0.75\columnwidth}\raggedright\strut
+The value of lambda when predicition error arrives at its minimum by
+Cross-Validation\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.19\columnwidth}\raggedright\strut
+index\_min\strut
+\end{minipage} & \begin{minipage}[t]{0.75\columnwidth}\raggedright\strut
+The index of optimal value\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.19\columnwidth}\raggedright\strut
+covs\strut
+\end{minipage} & \begin{minipage}[t]{0.75\columnwidth}\raggedright\strut
+The intercept vector of dimension \(n*1\).\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.19\columnwidth}\raggedright\strut
+pairs\strut
+\end{minipage} & \begin{minipage}[t]{0.75\columnwidth}\raggedright\strut
+A vector of all indexes of interaction effects when lambda is condisered
+as it optimal value.\strut
+\end{minipage}\tabularnewline
+\bottomrule
+\end{longtable}
+
+\subsubsection{Examples}\label{examples-1}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{set.seed}\NormalTok{(}\DecValTok{0}\NormalTok{)}
+\NormalTok{p=}\DecValTok{300}\NormalTok{;n=}\DecValTok{100}
+\NormalTok{rho=}\FloatTok{0.5}
+\NormalTok{H<-}\KeywordTok{abs}\NormalTok{(}\KeywordTok{outer}\NormalTok{(}\DecValTok{1}\OperatorTok{:}\NormalTok{p,}\DecValTok{1}\OperatorTok{:}\NormalTok{p,}\StringTok{"-"}\NormalTok{))}
+\NormalTok{covxx=rho}\OperatorTok{^}\NormalTok{H}
+\NormalTok{cholcov =}\StringTok{ }\KeywordTok{chol}\NormalTok{(covxx)}
+
+\NormalTok{x0 =}\StringTok{ }\KeywordTok{matrix}\NormalTok{(}\KeywordTok{rnorm}\NormalTok{(n}\OperatorTok{*}\NormalTok{p), n, p)}
+\NormalTok{x =}\StringTok{ }\NormalTok{x0}\OperatorTok{%*%}\NormalTok{cholcov}
+\CommentTok{#gaussian response}
+\KeywordTok{set.seed}\NormalTok{(}\DecValTok{0}\NormalTok{)}
+\NormalTok{y=}\DecValTok{2}\OperatorTok{*}\NormalTok{x[,}\DecValTok{1}\NormalTok{]}\OperatorTok{+}\DecValTok{2}\OperatorTok{*}\NormalTok{x[,}\DecValTok{8}\NormalTok{]}\OperatorTok{+}\DecValTok{3}\OperatorTok{*}\NormalTok{x[,}\DecValTok{1}\NormalTok{]}\OperatorTok{*}\NormalTok{x[,}\DecValTok{8}\NormalTok{]}\OperatorTok{+}\KeywordTok{rnorm}\NormalTok{(n)}
+\NormalTok{model3=}\KeywordTok{CV_BOLT_SSI_RR}\NormalTok{(x,y,}\DataTypeTok{extra_pairs=}\NormalTok{p,}\DataTypeTok{nfold=}\DecValTok{5}\NormalTok{)}
+
+
+\NormalTok{Lambdas=model3}\OperatorTok{$}\NormalTok{lambdas}
+\NormalTok{Beta=model3}\OperatorTok{$}\NormalTok{beta}
+\NormalTok{Lambda.min=model3}\OperatorTok{$}\NormalTok{lambda_min}
+\NormalTok{index.min=}\KeywordTok{which}\NormalTok{(Lambdas}\OperatorTok{==}\NormalTok{Lambda.min)}
+\NormalTok{Pairs=}\KeywordTok{t}\NormalTok{(}\KeywordTok{matrix}\NormalTok{(model3}\OperatorTok{$}\NormalTok{pairs,}\DataTypeTok{nrow =} \DecValTok{2}\NormalTok{))}
+
+\NormalTok{m=}\KeywordTok{length}\NormalTok{(final_Beta)}
+\NormalTok{main_index=}\KeywordTok{which}\NormalTok{(final_Beta[}\DecValTok{1}\OperatorTok{:}\NormalTok{p]}\OperatorTok{!=}\DecValTok{0}\NormalTok{)}
+\NormalTok{inter_index=}\KeywordTok{which}\NormalTok{(final_Beta[(p}\OperatorTok{+}\DecValTok{1}\NormalTok{)}\OperatorTok{:}\NormalTok{m]}\OperatorTok{!=}\DecValTok{0}\NormalTok{)}
+\NormalTok{final_inter_index=Pairs[inter_index,]}
+\NormalTok{main_index}
+\NormalTok{final_inter_index}
+\end{Highlighting}
+\end{Shaded}
+
+\subsection{\texorpdfstring{3.3 The function
+`BOLT\_Predict'}{3.3 The function BOLT\_Predict}}\label{the-function-bolt_predict}
+
+\subsubsection{Description}\label{description-2}
+
+This function makes predictions from a cross-validated BOLTSSIRR model,
+using the stored object, and the optimal value chosed for lambda.
+
+\subsubsection{Usage}\label{usage-2}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{BOLT_Predict}\NormalTok{(x,fit)}
+\end{Highlighting}
+\end{Shaded}
+
+\subsubsection{Arguments}\label{arguments-2}
+
+\begin{longtable}[]{@{}ll@{}}
+\toprule
+\begin{minipage}[b]{0.12\columnwidth}\raggedright\strut
+Arguments\strut
+\end{minipage} & \begin{minipage}[b]{0.82\columnwidth}\raggedright\strut
+\strut
+\end{minipage}\tabularnewline
+\midrule
+\endhead
+\begin{minipage}[t]{0.12\columnwidth}\raggedright\strut
+x\strut
+\end{minipage} & \begin{minipage}[t]{0.82\columnwidth}\raggedright\strut
+Matrix of new values for \(x\) at which predcitons ate to be made. Must
+be a matrix.\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.12\columnwidth}\raggedright\strut
+fit\strut
+\end{minipage} & \begin{minipage}[t]{0.82\columnwidth}\raggedright\strut
+Fitted ``CV\_BOLT\_SSI\_RR'' object.\strut
+\end{minipage}\tabularnewline
+\bottomrule
+\end{longtable}
+
+\subsubsection{Value}\label{value-2}
+
+Returns a predicted response vector .
+
+\subsubsection{Examples}\label{examples-2}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{newx=}\KeywordTok{matrix}\NormalTok{(}\KeywordTok{rnorm}\NormalTok{(}\DecValTok{30}\OperatorTok{*}\NormalTok{p),}\DecValTok{30}\NormalTok{)}
+\NormalTok{yhat=}\KeywordTok{BOLT_Predict}\NormalTok{(newx,model3)}
+\end{Highlighting}
+\end{Shaded}
+
+
+\end{document}
