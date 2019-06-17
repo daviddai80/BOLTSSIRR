@@ -9,10 +9,8 @@ Usage
 The file Package_BOLTSSI.pdf in inst/doc shows several examplex of how to use BOLTSSIRR package. 
 
 1. Sure Independence Screening SSI and BOLTSSI for interaction screening.
-   ```ruby
-require 'redcarpet'
-markdown = Redcarpet.new("Hello World!")
-puts markdown.to_html
+```R
+library(BOLTSSIRR)
 ```
 
 Development 
