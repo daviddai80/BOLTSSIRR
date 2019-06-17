@@ -40,7 +40,7 @@ model2=BOLT_SSI(x,y)
 head(model2)
 ```
 
-2. Usage of function CV_BOLT_SSI_RR
+2. Cross-validation for BOLT_SSI_RR
 
 ```R
 library(BOLTSSIRR)
