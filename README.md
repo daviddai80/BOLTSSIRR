@@ -8,6 +8,9 @@ Usage
 
 The file Package_BOLTSSI.pdf in inst/doc shows several examplex of how to use BOLTSSIRR package. 
 
+#1. Sure Independence Screening SSI and BOLTSSI for interaction screening.
+   library(BOLTSSIRR)
+
 Development 
 =======
 This R package is developed by Zhoumin, Mingwei Dai, Can Yang, Heng Peng, and maintained by Can Yang <eeyangc@gmail.com>.
