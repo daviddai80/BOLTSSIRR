@@ -60,8 +60,13 @@ RcppExport SEXP BOLT_SSI_RR(arma::mat X, arma::vec y, int extra_pairs = -1, int 
   int N = X.n_rows;
   int P = X.n_cols;
   Col<int> yi(N,fill::zeros);
-  uvec pos1 = find(y > median(y));
-  yi.elem(pos1).fill(1);
+  uvec uy = find_unique(y);
+  if(uy.size() > 2){
+    uvec pos1 = find(y > median(y));
+    yi.elem(pos1).fill(1);
+  }else{
+    yi = conv_to<Col<int>>::from(y);
+  }
   long long total = (long long)P * ((long long)P - 1) / 2;
   double pvalue_thresh = codes::max_num_of_pair > total ? 0.99 : (codes::max_num_of_pair * 1.0 / total);
   double chisq_thresh = R::qchisq(1 - pvalue_thresh, 4, true, false);
@@ -99,8 +104,13 @@ RcppExport SEXP CV_BOLT_SSI_RR(arma::mat X, arma::vec y, int extra_pairs = -1, i
   uword P = X.n_cols;
 
   Col<int> yi(N,fill::zeros);
-  uvec pos1 = find(y > median(y));
-  yi.elem(pos1).fill(1);
+  uvec uy = find_unique(y);
+  if(uy.size() > 2){
+    uvec pos1 = find(y > median(y));
+    yi.elem(pos1).fill(1);
+  }else{
+    yi = conv_to<Col<int>>::from(y);
+  }
   long long total = (long long)P * ((long long)P - 1) / 2;
   double pvalue_thresh = codes::max_num_of_pair > total ? 0.99 : (codes::max_num_of_pair * 1.0 / total);
   double chisq_thresh = R::qchisq(1 - pvalue_thresh, 4, true, false);
@@ -173,6 +183,3 @@ RcppExport SEXP CV_BOLT_SSI_RR(arma::mat X, arma::vec y, int extra_pairs = -1, i
   ret = wrap_cvfit(&fit0);
   return ret;
 }
-
-
-
