@@ -10,6 +10,11 @@
 using namespace Rcpp;
 using namespace arma;
 
+// [[Rcpp::export]]
+arma::mat SSI(arma::mat x, arma::vec y){
+  return lmpairwise_fast(y, x);
+}
+
 
 // [[Rcpp::export]]
 RcppExport SEXP BOLT_SSI(arma::mat X, arma::vec y, int extra_pairs = -1, int code_num = 3,  int thread_num = 4){
