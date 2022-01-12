@@ -6,6 +6,20 @@
 
 using namespace Rcpp;
 
+// SSI
+arma::mat SSI(arma::mat x, arma::vec y);
+RcppExport SEXP _BOLTSSIRR_SSI(SEXP xSEXP, SEXP ySEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< arma::mat >::type x(xSEXP);
+    Rcpp::traits::input_parameter< arma::vec >::type y(ySEXP);
+    rcpp_result_gen = Rcpp::wrap(SSI(x, y));
+    return rcpp_result_gen;
+END_RCPP
+}
+
+
 // BOLT_SSI
 RcppExport SEXP BOLT_SSI(arma::mat X, arma::vec y, int extra_pairs, int code_num, int thread_num);
 RcppExport SEXP _BOLTSSIRR_BOLT_SSI(SEXP XSEXP, SEXP ySEXP, SEXP extra_pairsSEXP, SEXP code_numSEXP, SEXP thread_numSEXP) {
@@ -68,6 +82,7 @@ END_RCPP
 static const R_CallMethodDef CallEntries[] = {
     {"_BOLTSSIRR_BOLT_SSI", (DL_FUNC) &_BOLTSSIRR_BOLT_SSI, 5},
     {"_BOLTSSIRR_BOLT_SSI_RR", (DL_FUNC) &_BOLTSSIRR_BOLT_SSI_RR, 6},
+    {"_BOLTSSIRR_SSI", (DL_FUNC) &_BOLTSSIRR_SSI, 2},
     {"_BOLTSSIRR_CV_BOLT_SSI_RR", (DL_FUNC) &_BOLTSSIRR_CV_BOLT_SSI_RR, 7},
     {"_BOLTSSIRR_rcpp_hello", (DL_FUNC) &_BOLTSSIRR_rcpp_hello, 0},
     {NULL, NULL, 0}
