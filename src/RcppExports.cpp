@@ -80,9 +80,9 @@ END_RCPP
 }
 
 static const R_CallMethodDef CallEntries[] = {
+    {"_BOLTSSIRR_SSI", (DL_FUNC) &_BOLTSSIRR_SSI, 2},
     {"_BOLTSSIRR_BOLT_SSI", (DL_FUNC) &_BOLTSSIRR_BOLT_SSI, 5},
     {"_BOLTSSIRR_BOLT_SSI_RR", (DL_FUNC) &_BOLTSSIRR_BOLT_SSI_RR, 6},
-    {"_BOLTSSIRR_SSI", (DL_FUNC) &_BOLTSSIRR_SSI, 2},
     {"_BOLTSSIRR_CV_BOLT_SSI_RR", (DL_FUNC) &_BOLTSSIRR_CV_BOLT_SSI_RR, 7},
     {"_BOLTSSIRR_rcpp_hello", (DL_FUNC) &_BOLTSSIRR_rcpp_hello, 0},
     {NULL, NULL, 0}
